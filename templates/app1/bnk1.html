@@ -199,14 +199,12 @@
                         {% csrf_token %}
                         <div class="row mt-2 mb-2">
                             <div class="col-md-6">
-                                <label for="acctyp">Expense Account</label>
+                                <label for="acctyp">Vendor</label>
                               <select class="form-control" name="exac">
                                 <option>new</option>
                                 <option></option>
                               </select>
-                            </div>
-                            
-                            
+                            </div>    
 
                         </div>
                         <div class="row mt-2 mb-2">
@@ -215,50 +213,58 @@
                                 data-toggle="modal"  class="btn btn-info  ">+</a>
                                 <a>Add New Vendor</a>
                             </div>
-                            
                             <div class="col-md-6">
-                                <label for="description">Amount</label>
-                                <input type="text" name="amount" class="form-control">
+                                <label for="balance">Customer</label>
+                                <input type="text" name="customer" id="balance"
+                                       class="form-control">
                             </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Description</label>
-                        <textarea class="form-control mt-2" name="description" cols="20" class="form-control"
-                                  rows="10" style="font-size: small;" ></textarea>
+                            <textarea class="form-control mt-2" name="description" cols="20" class="form-control"
+                                    rows="10" style="font-size: small;" ></textarea>
                             </div>
+                            <div class="col-md-6">
+                                <label for="description">Amount</label>
+                                <input type="text" name="amount" class="form-control">
+                            </div>
+                            <!-- <div class="col-md-6">
+                                <label>Account</label>
+                                <input class="form-control" type="text" name="account" value="{{ bk.name }}">
+                            </div> -->
                            
                             <div class="col-md-6 mt-2">
-                                <div >
-                                    <div>
-                                      
-                                    <label for="detype">Date </label>
-                                    <input type="date" class="form-control" name="tdate">
-                                        
-                                    </div>
-                                </div>
-                                <div class="mt-2">
-                                    <label>Account</label>
-                                   <input class="form-control" type="text" name="account" value="{{ bk.name }}">
-                                </div>
-                                <div class="mt-2">
-                                    <label>Tax</label>
-                                   <input class="form-control" type="number" name="ntax">
-                                </div>
-                                <div class="mt-2">
-                                   <label>#Reference</label>
-                                   <input type="text" class="form-control" name="refenrence">
-                                </div><br>
-                                <div class="mt-2">
-                                    
-                                 </div>
                             
+                            <div >
+                                <div>
+                                    
+                                <label for="detype">Date </label>
+                                <input type="date" class="form-control" name="tdate">
+                                    
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <label>Account</label>
+                                <input class="form-control" type="text" name="account" value="{{ bk.name }}">
+                            </div>
+                            <div class="mt-2">
+                                <label>Paid Through</label>
+                                <select class="form-control" name="paid">
+                                <option></option>
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                <label>#Reference</label>
+                                <input type="text" class="form-control" name="refenrence">
+                            </div><br>
+                            <div class="mt-2">
                                 
-                                    <div class="mt-2">
-                                        <label for="balance">Customer</label>
-                                        <input type="text" name="customer" id="balance"
-                                               class="form-control">
-                                    </div>
+                            </div>
+                        
+                                
+                                    
                                    
                                
 
@@ -292,43 +298,37 @@
                         {% csrf_token %}
                         <div class="row mt-2 mb-2">
                             <div class="col-md-6">
-                                <label for="acctyp">Expense Account</label>
-                               <select class="form-control">
-                                <option>Advertising and Marketing</option>
-                                <option>Audit Fee</option>
-                                <option>Automobile Expense</option>
-                                <option>Bad Debt</option>
-                                <option>Bank Fee And Charges </option>
-                                <option>Automobile charges</option>
-                                <option>Deprieciation Expenses</option>
-                                <option>Documentation Charges</option>
-                                <option>Electricity Expenses </option>
-                                <option>Food Expenses</option>
-                                <option>IT And Internet charges</option>
-                                <option>Labour Charges</option>
-                                <option>Miscellaneous Expenses</option>
-                                <option>Printing And Stationary</option>
-                               </select>
+                                <label for="acctyp">Customer</label>
+                                <select name="customername" id="select" class="form-control" style="background-color: #2f516f; color: white;">
+                                    <option value="NIL" disabled selected>Select Customer</option>
+                                    {% for cust in customers %}
+                                    {% if cust.cid_id == cmp1.cid %}
+                                    <a href="{% url 'sa' %}">
+                                    <option text="{{ cust.customerid }}" value="{{ cust.firstname }} {{ cust.lastname }}">{{ cust.firstname }} {{ cust.lastname }}</option>
+                                    </a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
                             </div>
                             
                             <div class="col-md-6">
-                                <label for="name">*Vendor</label>
+                                <label for="name">Vendor</label>
                                 <select class="form-control">
                                     <option></option>
                                 </select>
                             </div>
-
+                          <br>
                         </div>
                         <div class="row mt-2 mb-2">
                             <div class="col-md-6">
                                 <a href="" data-dismiss="modal"  data-target="#customercreation"
                                 data-toggle="modal"  class="btn btn-info ">+</a>
-                                <a>Add New Customer</a>
-                                
+                                <a>Add New Customer</a>    
                             </div>
+                            <br>
                             <div class="col-md-6">
-                                <label for="description">Amount</label>
-                                <input type="text" name="description" class="form-control">
+                                <label for="description">Amount Received</label>
+                                <input type="text" name="description" class="form-control" text="{{ha.opening_balance}}">
                             </div>
                         </div>
                         <div class="row">
@@ -347,26 +347,36 @@
                                         
                                     </div>
                                 </div>
+                                <br>
                                 <div class="mt-2">
-                                    <label>Tax</label>
+                                    <label>Received Trough</label>
                                    <select class="form-control">
-                                    <option></option>
+                                    <option>Bank Transfer</option>
+                                    <option>Cash</option>
+                                    <option>Cheque</option>
                                    </select>
                                 </div>
+                                <br>
                                 <div class="mt-2">
-                                   <label>#Reference</label>
+                                   <label>#Payment Reference No</label>
                                    <input type="text" class="form-control">
                                 </div><br>
                                 <div class="mt-2">
                                     
                                  </div>
+                                 <div class="mt-2">
+                                    <label>#Bank Reference No</label>
+                                    <input type="text" class="form-control">
+                                 </div><br>
+                                 <div class="mt-2">
+                                     
+                                  </div>
                               
                                 
-                                    <div class="mt-2">
-                                        <label for="balance">Customer</label>
-                                        <input type="text" name="" id="balance"
-                                               class="form-control">
-                                    </div>
+                                  <div class="mt-2">
+                                    <label></label>
+                                    <input type="file" class="form-control">
+                                 </div>
                                    
                                
 
@@ -662,7 +672,7 @@
             </div>
             <div class="modal-body">
                 <div class="card p-3 m-3">
-                    <form action="{% url 'vendordetails' %}" method="post" class="needs-validation" novalidate autocomplete="off">
+                    <form action="{% url 'createvendor' %}" method="post" class="needs-validation" novalidate autocomplete="off">
                         {% csrf_token %}
                        
                             <div class="row">
@@ -923,9 +933,9 @@
                                     <div class="row">
                                         <div class="col-md-12 d-flex">
                                             <h5>Shipping Address</h5>
-                                            <input class="ml-4 mt-2 ml-2" type="checkbox" onclick="poppins()" id="okay"
-                                                   name="okay">
-                                            <label class="ml-2 mt-1 ml-2" for="okay">Same As Billing Address</label>
+                                            <input class="ml-4 mt-2 ml-2" type="checkbox" onclick="poppinss()" id="okayy"
+                                                   name="okayy">
+                                            <label class="ml-2 mt-1 ml-2" for="okayy">Same As Billing Address</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1166,6 +1176,17 @@
                                            onchange="checkpan(this)" placeholder="APPCK7465F">
                                     <div class="text-danger m-2" id="warnpan"></div>
                                 </div>
+
+                                <div class="col-md-4 mt-3" >
+                                    <div >
+                                        <label for="validationCustom05">OPENING BALANCE</label>
+                                        <input type="text" class="form-control" value=""  name="openbalance"
+                                               
+                                               style="background-color: #2f516f;color: white;"
+                                               >
+                                        <div class="text-danger m-2" ></div>
+                                    </div>
+                                </div>
     
                                 <!-- <div class="col-md-4 mt-3" id="hai1">
                                     <div >
@@ -1239,7 +1260,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-row">
                                                 <label for="street">Street</label>
-                                                <textarea class="form-control street" id="street" name="street"
+                                                <textarea class="form-control street" id="streets" name="street"
                                                           required
                                                           style="background-color: #2f516f;color: white;"></textarea>
                                                 <div class="invalid-feedback">Please provide a valid Street</div>
@@ -1250,7 +1271,7 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-row">
                                                 <label for="city">City</label>
-                                                <input type="text" class="form-control" id="city"
+                                                <input type="text" class="form-control" id="citys"
                                                        name="city"
                                                        required
                                                        style="background-color: #2f516f;color: white;" placeholder="City">
@@ -1260,7 +1281,7 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-row">
                                                 <label for="state">State</label>
-                                                <select type="text" class="form-control" id="state" name="state"
+                                                <select type="text" class="form-control" id="states" name="state"
                                                         style="background-color: #2f516f; color: white;">
                                                     <option value="" disabled selected>Choose</option>
                                                     <option value="Andaman and Nicobar Islads">Andaman and Nicobar Islads
@@ -1311,7 +1332,7 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-row">
                                                 <label for="pinco">Pin Code</label>
-                                                <input type="text" class="form-control" id="pinco"
+                                                <input type="text" class="form-control" id="pincoss"
                                                        name="pincode"
                                                        required style="background-color: #2f516f;color: white;"
                                                        placeholder="PIN code">
@@ -1321,7 +1342,7 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-row">
                                                 <label for="country">Country</label>
-                                                <input type="text" class="form-control" id="country"
+                                                <input type="text" class="form-control" id="countrys"
                                                        name="country"
                                                        required style="background-color: #2f516f;color: white;"
                                                        placeholder="Country">
@@ -1337,14 +1358,14 @@
                                             <input class="ml-4 mt-2 ml-2" type="checkbox" onclick="poppins()" id="okay"
                                                    name="okay">
                                             <label class="ml-2 mt-1 ml-2" for="okay">Same As Billing Address</label>
-                                        </div>
+                                        </div Address>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 mt-3">
                                             <div class="form-row">
                                                 <label for="shipstreet">Street</label>
-                                                <textarea class="form-control" id="shipstreet"
-                                                          name="shipstreet"
+                                                <textarea class="form-control"  id="shipstreets"
+                                                          name="shipstreet" 
                                                           required
                                                           style="background-color: #2f516f;color: white;"></textarea>
                                                 <div class="invalid-feedback">Please provide a valid Street</div>
@@ -1355,7 +1376,7 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-row">
                                                 <label for="shipcity">City</label>
-                                                <input type="text" class="form-control" id="shipcity"
+                                                <input type="text" class="form-control" id="shipcitys"
                                                        name="shipcity"
                                                        required
                                                        style="background-color: #2f516f;color: white;" placeholder="City">
@@ -1367,7 +1388,7 @@
                                                 <label for="shipstate">State</label>
                                                 <select type="text" class="form-control" id="plosu" name="shipstate"
                                                         style="background-color: #2f516f; color: white;">
-                                                    <option id="shipst" selected>Choose</option>
+                                                    <option id="shipsts" selected>Choose</option>
                                                     <option value="Andaman and Nicobar Islads">Andaman and Nicobar Islads
                                                     </option>
                                                     <option value="Andhra Predhesh">Andhra Predhesh</option>
@@ -1416,7 +1437,7 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-row">
                                                 <label for="shippinco">Pin Code</label>
-                                                <input type="text" class="form-control" id="shippinco"
+                                                <input type="text" class="form-control" id="shippincos"
                                                        name="shippincode"
                                                        required style="background-color: #2f516f;color: white;"
                                                        placeholder="PIN code">
@@ -1426,7 +1447,7 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-row">
                                                 <label for="shipcountry">Country</label>
-                                                <input type="text" class="form-control" id="shipcountry"
+                                                <input type="text" class="form-control" id="shipcountrys"
                                                        name="shipcountry"
                                                        required style="background-color: #2f516f;color: white;"
                                                        placeholder="Country">
@@ -1526,7 +1547,7 @@
                     <th>Name</th>                   
                     <th>Deposits</th>
                     <th>Withdrawal</th>
-                    
+                    <th></th>
                     <th></th>
                 </tr>
                 <tr style="text-align:center ;" class="rw">
@@ -1552,18 +1573,36 @@
         <div id="pDetails" class="container"  >
             <table class="table table-responsive" >
                
-                    <tr style="text-align:center ;background-color: rgba(51, 51, 75, 0.829);" class="rw">
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Deposits</th>
-                        <th>Withdrawal</th>
-                        <th>Running Balance</th>
-                    </tr>
-                    <tr  style="text-align: center;">
-                       
-                        
-                    </tr>
+                <tr style="text-align:center ;background-color: rgba(51, 51, 75, 0.829);" class="rw">
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Deposits</th>
+                    <th>Withdrawal</th>
+                    <th>Running Balance</th>
                 </tr>
+                {% for customer in customers %}
+                {% if customer.cid_id == cmp1.cid %}
+                <tr style="text-align:center ;" class="rw">
+
+                    <td>{{ customer.date }}</td>
+                    <td>Customer Payment</td>
+                    <td>10000</td>
+                    <td></td>
+                    <td></td>
+                    
+                </tr>
+                {% endif %}
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    
+                </tr>
+                        
+                    
                 <tr  style="text-align: center;">
                     
                    
@@ -1681,7 +1720,60 @@ function sho() {
        
     </script>
 
-    
+    <script>
+        function poppins() {
+            var chkbtn = document.getElementById('okay');
+
+            if (chkbtn.checked == true){
+                // document.write(document.getElementById('street').value)
+
+                
+                document.getElementById('shipstreets').value=document.getElementById('streets').value
+                document.getElementById('shipcitys').value = document.getElementById('citys').value;
+                document.getElementById('shippincos').value = document.getElementById('pincoss').value;
+                document.getElementById('shipcountrys').value = document.getElementById('countrys').value;
+                document.getElementById('shipsts').value = document.getElementById('states').value;
+                document.getElementById('shipsts').innerHTML = document.getElementById('states').value;
+            }
+            // if (chkbtn.checked == true) {
+            //     // document.write(chkbtn);
+            //     document.getElementById('shipstreet').value = document.getElementById('street').value;
+            //     document.getElementById('shipcity').value = document.getElementById('city').value;
+            //     document.getElementById('shippinco').value = document.getElementById('pinco').value;
+            //     document.getElementById('shipcountry').value = document.getElementById('country').value;
+            //     document.getElementById('shipst').value = document.getElementById('state').value;
+            //     document.getElementById('shipst').innerHTML = document.getElementById('state').value;
+            // } else {
+            //     document.getElementById('shipstreet').value = '';
+            //     document.getElementById('shipcity').value = '';
+            //     document.getElementById('shipstate').value = '';
+            //     document.getElementById('shippinco').value = '';
+            //     document.getElementById('shipcountry').value = '';
+                
+            // }
+        }
+    </script>
+    <script>
+        function poppinss() {
+            var chkbtnn = document.getElementById('okayy');
+            
+            document.write(document.getElementById('okayy'));
+            if (chkbtnn.checked == true) {
+                document.getElementById('shipstreet').value = document.getElementById('street').value;
+                document.getElementById('shipcity').value = document.getElementById('city').value;
+                document.getElementById('shippinco').value = document.getElementById('pinco').value;
+                document.getElementById('shipcountry').value = document.getElementById('country').value;
+                document.getElementById('shipst').value = document.getElementById('state').value;
+                document.getElementById('shipst').innerHTML = document.getElementById('state').value;
+            } else {
+                document.getElementById('shipstreet').value = '';
+                document.getElementById('shipcity').value = '';
+                document.getElementById('shipstate').value = '';
+                document.getElementById('shippinco').value = '';
+                document.getElementById('shipcountry').value = '';
+            }
+        }
+    </script>
     
 
    

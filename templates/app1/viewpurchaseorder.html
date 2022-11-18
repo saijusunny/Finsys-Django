@@ -156,7 +156,7 @@
         .media p {
             font-weight: 400;
             margin: 0;
-            color: #000000;
+            /* color: #000000; */
         }
         .media p.title {
             font-weight: 600;    
@@ -264,7 +264,11 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{% url 'convertapproved' pordr.porderid %}">Approved</a>
-                                        <a class="dropdown-item" href="{% url 'convertbilled' pordr.porderid %}"><i class="fas fa-receipt"></i>Bill</a>
+                                        {% if pordr.status != 'Billed' %}
+                                            <a class="dropdown-item" href="{% url 'convertbilled' pordr.porderid %}">
+                                                <i class="fas fa-receipt"></i>Bill
+                                            </a>
+                                        {% endif %}    
                                     </div>
                                 </li>
                                 <li class="nav-item">

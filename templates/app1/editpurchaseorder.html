@@ -374,6 +374,13 @@
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div><hr>
+                                    <div class="row container-fluid  p-2 m-0" style="display: none;">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Balance Due</label></div>
+                                        <div class="col-sm-8 mt-2"><input type="number" name='balance_due' id="due" placeholder="0" step="any" 
+                                            class="form-control" value="{{ pordr.balance_due }}" readonly>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
                                     <div class="row container-fluid  p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Grand Total</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="any" 
@@ -565,9 +572,12 @@
             let x =Math.round(amount)
             let y =Math.round(x-disc0)
             
-            $('#tcs_amount').val((z).toFixed(2));
-            $('#grandtotal').val((y).toFixed(2));
-            $('#round_off').val((y).toFixed(2));  
+            // $('#tcs_amount').val((z).toFixed(2));
+            // $('#grandtotal').val((y).toFixed(2));
+            // $('#round_off').val((y).toFixed(2));  
+            $('#grandtotal').val(parseFloat(y.toFixed(2)));
+            $('#due').val(parseFloat(y.toFixed(2)));
+            $('#round_off').val(parseFloat(y.toFixed(2)));
             
             test()
         }

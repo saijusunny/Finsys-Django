@@ -747,13 +747,17 @@ def customers(request):
                                      )
 
                 customer1.save()
-               
-                temp=request.POST['openbalance']
-                if temp != "":
-                    customer1.opening_balance = request.POST['openbalance'] 
-                    customer1.opening_balance_due = request.POST['openbalance'] 
-                    customer1.date= tod
-                    customer1.save()
+                try:
+                    temp=request.POST['openbalance']
+                
+                    if temp != "":
+                        customer1.opening_balance = request.POST['openbalance'] 
+                        customer1.opening_balance_due = request.POST['openbalance'] 
+                        customer1.date= tod
+                        customer1.save()
+                except:
+                    pass
+                
                     
                    
 
@@ -13485,13 +13489,11 @@ def profitandloss(request):
     
         cmp1 = company.objects.get(id=request.session["uid"])
         context = {'cmp1': cmp1}
-        pur=purchasebill.objects.all()
-
-        sum1=0
         
+        pur=purchasebill.objects.all()
+        sum1=0
         for i in pur:
             sum1+=i.grand_total
-
         
         inv = invoice.objects.filter()
         sum2=0
@@ -25673,7 +25675,7 @@ def estimate_create_item2(request,id):
             itax = request.POST['taxref']
             ipcost = request.POST['pcost']
             iscost = request.POST['salesprice']
-            itrate = request.POST['tax']
+            # itrate = request.POST['tax']
             ipuracc = request.POST['pur_account']
             isalacc = request.POST['sale_account']
             ipurdesc = request.POST['pur_desc']
@@ -25687,7 +25689,7 @@ def estimate_create_item2(request,id):
                                 hsn=ihsn,tax_reference=itax,
                                 purchase_cost=ipcost,
                                 sales_cost=iscost,
-                                tax_rate=itrate,
+                                # tax_rate=itrate,
                                 acount_pur=ipuracc,
                                 account_sal=isalacc,
                                 pur_desc=ipurdesc,
@@ -26495,6 +26497,7 @@ def goinvoices(request):
 @login_required(login_url='regcomp')
 def goaddinvoices(request):
     try:
+        
         customers = customer.objects.all()
         toda = date.today()
         tod = toda.strftime("%Y-%m-%d")
@@ -28699,9 +28702,9 @@ def iodhsn(request):
 def iod_rate(request):
     try:
         cmp1 = company.objects.get(id=request.session['uid'])
-        items = itemtable.objects.order_by('tax_rate').filter(cid=cmp1)
-        context = {'items':items,'cmp1': cmp1}
-        return render(request, 'app1/itemmodule.html',context)  
+        # items = itemtable.objects.order_by('tax_rate').filter(cid=cmp1)
+        # context = {'items':items,'cmp1': cmp1}
+        return render(request, 'app1/itemmodule.html',{'cmp1': cmp1})  
     except:
         return redirect('goitem')
 
@@ -28829,7 +28832,7 @@ def update_item(request, id):
             item.tax_reference = request.POST.get('taxref')
             item.purchase_cost = request.POST.get('pcost')
             item.sales_cost = request.POST.get('salesprice')
-            item.tax_rate = request.POST.get('tax')
+            # item.tax_rate = request.POST.get('tax')
             item.acount_pur = request.POST.get('pur_account')
             item.account_sal = request.POST.get('sale_account')
             item.pur_desc = request.POST.get('pur_desc')
@@ -29334,7 +29337,7 @@ def getit(request):
             'tax_reference': itemobject.tax_reference,
             'purchase_cost': itemobject.purchase_cost,
             'sales_cost': itemobject.sales_cost,
-            'tax_rate': itemobject.tax_rate,
+            # 'tax_rate': itemobject.tax_rate,
             'acount_pur': itemobject.acount_pur,
             'account_sal': itemobject.account_sal,
             'pur_desc': itemobject.pur_desc,
@@ -29907,12 +29910,12 @@ def govendor(request):
 
 def vendor_active(request):
     cmp1 = company.objects.get(id=request.session["uid"])
-    vndr = vendor.objects.filter(status='Active').all()
+    vndr = vendor.objects.filter(is_active=True).all()
     return render(request,'app1/govendor.html',{'cmp1':cmp1,'vndr':vndr})
 
 def vendor_inactive(request):
     cmp1 = company.objects.get(id=request.session["uid"])
-    vndr = vendor.objects.filter(status='Inactive').all()
+    vndr = vendor.objects.filter(is_active=False).all()
     return render(request,'app1/govendor.html',{'cmp1':cmp1,'vndr':vndr})
 
 @login_required(login_url='regcomp')
@@ -30035,7 +30038,79 @@ def viewvendor(request, id):
 
                 }
         return render(request,'app1/viewvendor.html',context)
-    return redirect('viewvendor')  
+    return redirect('viewvendor') 
+
+# @login_required(login_url='regcomp')
+# def viewvendor1(request,id):
+#     if 'uid' in request.session:
+#         if request.session.has_key('uid'):
+#             uid = request.session['uid']
+#         else:
+#             return redirect('/')
+#         cmp1 = company.objects.get(id=request.session['uid'])
+#         if request.method=='POST': 
+            
+#             toda = date.today()
+#             tod = toda.strftime("%Y-%m-%d")
+#             filmeth = request.POST['reportperiod']
+#             if filmeth == 'Today':
+#                 fromdate = tod
+#                 todate = tod
+#             elif filmeth == 'Custom':
+#                 fromdate = request.POST['fper']
+#                 todate = request.POST['tper']
+#             elif filmeth == 'This month':
+#                 fromdate = toda.strftime("%Y-%m-01")
+#                 todate = toda.strftime("%Y-%m-31")
+#             elif filmeth == 'This financial year':
+#                 if int(toda.strftime("%m")) >= 1 and int(toda.strftime("%m")) <= 3:
+#                     pyear = int(toda.strftime("%Y")) - 1
+#                     fromdate = f'{pyear}-03-01'
+#                     todate = f'{toda.strftime("%Y")}-03-31'
+#                 else:
+#                     pyear = int(toda.strftime("%Y")) + 1
+#                     fromdate = f'{toda.strftime("%Y")}-03-01'
+#                     todate = f'{pyear}-03-31'
+#             # else:
+#             #     return redirect('viewvendor')
+#             vndr=vendor.objects.get(vendorid=id) 
+#             fn =vndr.firstname
+#             ln = vndr.lastname
+#             su = fn+ ' ' +ln
+
+#             pbill = purchasebill.objects.filter(vendor_name=su,date__gte=fromdate,date__lte=todate,status='Approved')
+            
+#             pymnt = purchasepayment.objects.filter(vendor=su, paymentdate=tod)
+
+#             statment = vendor_statment.objects.filter(vendor=su,cid=cmp1)
+            # statment = vendor_statment.objects.filter(vendor=su,date=tod)
+
+    #         tot6 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('balance_due'))
+    #         tot2 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('grand_total'))
+    #         tot1 = purchasepayment.objects.filter(vendor=su).all().aggregate(t2=Sum('paymentamount'))
+    #         tot7 = purchasepayment.objects.filter(vendor=su).all().aggregate(t3=Sum('amtcredit')) 
+
+    #         billed=0
+    #         sum=0
+    #         summ=0
+    #         re=0
+
+    #         for i in pbill:
+    #             if i.balance_due:
+    #                 sum+=i.balance_due
+    #             if i.grand_total:
+    #                 billed += i.grand_total  
+
+    #         pbl = purchasebill.objects.filter(vendor_name=su,).all() 
+    #         paymnt = purchasepayment.objects.filter(vendor=su,).all()  
+    #         expnc = purchase_expense.objects.filter(vendor=su,).all()   
+    #         pordr =purchaseorder.objects.filter(vendor_name=su,).all() 
+    #         context = {'vndr': vndr,'cmp1': cmp1,'pbill':pbill,'sum':sum,'sum2':summ,'billed':billed,'tod':tod,'re':re,'pymnt':pymnt,'pbl':pbl,
+    #                     'paymnt':paymnt,'pordr':pordr,'expnc':expnc,'statment':statment,'tot6':tot6,'tot7':tot7,'tot1':tot1,'tot2':tot2
+
+    #                 }
+    #         return render(request,'app1/viewvendor.html',context)
+    # return redirect('viewvendor')  
 
 @login_required(login_url='regcomp')
 def goeditvendor(request, id):
@@ -30753,6 +30828,7 @@ def editpurchaseorder(request,id):
             pordr.tcs=request.POST['tcs']
             pordr.tcs_amount=request.POST['tcs_amount']
             pordr.round_off=request.POST['round_off']
+            pordr.balance_due=request.POST['balance_due']
             pordr.grand_total=request.POST['grand_total']
             pordr.note=request.POST['note']
 
@@ -30804,7 +30880,7 @@ def deletepurchasorder(request, id):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         pordr=purchaseorder.objects.get(porderid=id)
-        pitem = purchaseorder.objects.all().filter(porder=id)
+        pitem = purchaseorder_item.objects.all().filter(porder=id)
         pordr.delete() 
         pitem.delete() 
         return redirect('gopurchaseorder')
@@ -30855,9 +30931,9 @@ def convertbilled(request,id):
         upd.tcs= pordr.tcs
         upd.tcs_amount= pordr.tcs_amount
         upd.round_off= pordr.round_off
+        upd.amtrecvd= 0
         upd.grand_total= pordr.grand_total
         upd.balance_due= pordr.balance_due
-        upd.amtrecvd= pordr.amtrecvd
         upd.note= pordr.note
         upd.file= pordr.file
         upd.status= pordr.status
@@ -30867,6 +30943,17 @@ def convertbilled(request,id):
         upd.save()
         upd.bill_no = int(upd.bill_no) + upd.billid
         upd.save()
+
+        statment2=vendor_statment()
+        statment2.vendor = pordr.vendor_name
+        statment2.cid = cmp1
+        statment2.transactions = "Billed"
+        statment2.pbill = upd
+        statment2.details = upd.bill_no
+        statment2.details2 = pordr.reference
+        statment2.date = pordr.date
+        statment2.payments = pordr.grand_total
+        statment2.save()
 
         po =purchaseorder_item.objects.filter(porder=id)
         blid = purchasebill.objects.get(billid=upd.billid)
@@ -31158,8 +31245,10 @@ def deletebill(request, id):
         cmp1 = company.objects.get(id=request.session['uid'])
         pbill=purchasebill.objects.get(billid=id)
         bitem = purchasebill_item.objects.all().filter(bill=id)
+        stm = vendor_statment.objects.all().filter(pbill=id)
         pbill.delete() 
         bitem.delete() 
+        stm.delete() 
         return redirect('gobilling')
     return redirect('gobilling')
 
@@ -31650,8 +31739,10 @@ def deletepurchasepymnt(request, id):
         cmp1 = company.objects.get(id=request.session['uid'])
         paymt=purchasepayment.objects.get(pymntid=id)
         py = purchasepayment1.objects.all().filter(pymnt=id)
+        stm = vendor_statment.objects.all().filter(paymnt=id)
         paymt.delete() 
         py.delete() 
+        stm.delete() 
         return redirect('gopurchasepymnt')
     return redirect('gopurchasepymnt')
 
@@ -31960,10 +32051,25 @@ def bnnk(request):
     context={'i':i,'c':c,'u':u}
     return render(request,'app1/bnk.html',context)
 
+def sa(request):
+    csname = request.POST.get('customername')
+    gs = csname.split(' ') 
+    print(csname)
+    ha = customer.objects.filter(firstname=gs[0])
+    context={'ha':ha,}
+    return render(request,"app1/bnk1.html",context)
+
+    # ck=customer.objects.get(customerid=pk)
+    # context={'ck':ck,}
+    # return render(request,"app1/bnk1.html",context)
+
 def bnk1(request,pk):
     bk=accounts1.objects.get(accounts1id=pk)
-    context={'bk':bk,}
+    customers = customer.objects.all()
+    cmp1 = company.objects.get(id=request.session["uid"])
+    context={'bk':bk,'customers': customers, 'cmp1': cmp1}
     return render(request,"app1/bnk1.html",context)
+
 
 def accpayment(request):
     cmp1 = company.objects.get(id=request.session["uid"])
@@ -32017,7 +32123,7 @@ def trial(request):
     cl2=0
     for a in cul:
         cl1+=a.balance
-        cl2+=b.dbbalance 
+        cl2+=a.dbbalance 
 
     fx1=0
     fx2=0
@@ -32091,6 +32197,10 @@ def trial(request):
     drtot=sum2+sum4+cl2+fx2+nc2+acp2+cr2+ncl2+eq2+inc2+onc2+co2+ex2+ox2
 
     diff=crtot-drtot
+
+
+
+
 
     context={'tr':tr,'sum1':sum1,'sum2':sum2,'sum3':sum3,'sum4':sum4,'cl1':cl1,'cl2':cl2,'fx1':fx1,'fx2':fx2,
     'nc1':nc1,'nc2':nc2,'acp1':acp1,'acp2':acp2,'cr1':cr1,'cr2':cr2,'ncl1':ncl1,'ncl2':ncl2,'eq1':eq1,'eq2':eq2,
@@ -32173,6 +32283,4 @@ def exp(request):
 def acres(request,pk):
     cr=accounts1.objects.get(accounts1id=pk)
     context={'cr':cr}
-    return render(request,'app1/ledger.html',context)   
-
-      
+    return render(request,'app1/ledger.html',context)       

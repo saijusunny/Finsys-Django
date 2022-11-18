@@ -39,7 +39,6 @@ class company(models.Model):
     abt = models.CharField(max_length=100)
     paid = models.CharField(max_length=100)
 
-
 class customer(models.Model):
     customerid = models.AutoField(('CUSTID'), primary_key=True)
     cid = models.ForeignKey(company, on_delete=models.CASCADE)
@@ -851,12 +850,12 @@ class accounts(models.Model):
 class accounts1(models.Model):
     accounts1id = models.AutoField(('ACCOUNTSID'), primary_key=True)
     cid = models.ForeignKey(company, on_delete=models.CASCADE)
-    acctype = models.CharField(max_length=100)
-    detype = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
+    acctype = models.CharField(max_length=100,null=True)
+    detype = models.CharField(max_length=100,null=True)
+    name = models.CharField(max_length=100,null=True)
     description = models.CharField(max_length=100,null=True)
     gst = models.CharField(max_length=100, default='', null=True)
-    deftaxcode = models.CharField(max_length=100)
+    deftaxcode = models.CharField(max_length=100,null=True)
     balance = models.FloatField(default=0.0, null=True)
     dbbalance=models.FloatField(default=0.0, null=True)
     asof = models.DateField(null=True)
@@ -1045,27 +1044,27 @@ class customize(models.Model):
 # Ananthakrishnan
 class estimate(models.Model):
     estimateid = models.AutoField(('ESTIMATEID'), primary_key=True)
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
-    customer = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    billingaddress = models.CharField(max_length=100)
-    estimatedate = models.DateField()
-    expirationdate = models.DateField()
-    estimateno = models.CharField(max_length=100)
-    placeofsupply = models.CharField(max_length=100)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
+    customer = models.CharField(max_length=100,null=True)
+    email = models.EmailField(max_length=100,null=True)
+    billingaddress = models.CharField(max_length=100,null=True)
+    estimatedate = models.DateField(null=True)
+    expirationdate = models.DateField(null=True)
+    estimateno = models.CharField(max_length=100,null=True)
+    placeofsupply = models.CharField(max_length=100,null=True)
 
     
    
 
     taxamount = models.CharField(max_length=100, default='')
     reference_number = models.CharField(max_length=100, default='')
-    note = models.TextField()
-    IGST = models.CharField(max_length=100)
-    CGST  =  models.CharField(max_length=100)
-    SGST =  models.CharField(max_length=100)
-    TCS =  models.CharField(max_length=100)
-    subtotal = models.CharField(max_length=100)
-    estimatetotal = models.CharField(max_length=100)
+    note = models.TextField(null=True)
+    IGST = models.CharField(max_length=100,null=True)
+    CGST  =  models.CharField(max_length=100,null=True)
+    SGST =  models.CharField(max_length=100,null=True)
+    TCS =  models.CharField(max_length=100,null=True)
+    subtotal = models.CharField(max_length=100,null=True)
+    estimatetotal = models.CharField(max_length=100,null=True)
     file = models.FileField(upload_to='estimate',default="default.jpg")
     file_share = models.FileField(upload_to='estimate', default='')
 
@@ -1097,28 +1096,28 @@ class estimate_item(models.Model):
 
 class salesorder(models.Model):
 
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     
-    salename = models.CharField(max_length=100)
-    saleemail = models.EmailField()
-    saleaddress = models.CharField(max_length=150)
-    saledate = models.DateField()
-    shipmentdate =  models.DateField()
-    saleno = models.CharField(max_length=20)
-    placeofsupply = models.CharField(max_length=100)
+    salename = models.CharField(max_length=100,null=True)
+    saleemail = models.EmailField(null=True)
+    saleaddress = models.CharField(max_length=150,null=True)
+    saledate = models.DateField(null=True)
+    shipmentdate =  models.DateField(null=True)
+    saleno = models.CharField(max_length=20,null=True)
+    placeofsupply = models.CharField(max_length=100,null=True)
 
 
     
 
     reference_number = models.CharField(max_length=100, default='')
-    note = models.TextField()
+    note = models.TextField(null=True)
 
-    subtotal = models.CharField(max_length=100)
-    IGST = models.CharField(max_length=100)
-    CGST  =  models.CharField(max_length=100)
-    SGST =  models.CharField(max_length=100)
-    TCS =  models.CharField(max_length=100)
-    salestotal = models.CharField(max_length=100)
+    subtotal = models.CharField(max_length=100,null=True)
+    IGST = models.CharField(max_length=100,null=True)
+    CGST  =  models.CharField(max_length=100,null=True)
+    SGST =  models.CharField(max_length=100,null=True)
+    TCS =  models.CharField(max_length=100,null=True)
+    salestotal = models.CharField(max_length=100,null=True)
     
     file = models.FileField(upload_to='sales',default="default.jpg")
 
@@ -1133,29 +1132,29 @@ class salesorder(models.Model):
 
 
 class sales_item(models.Model):
-    salesorder= models.ForeignKey(salesorder,on_delete=models.CASCADE)
+    salesorder= models.ForeignKey(salesorder,on_delete=models.CASCADE,null=True)
     cid = models.ForeignKey(company, on_delete=models.CASCADE,default='')
-    product = models.CharField(max_length=100)
-    hsn = models.CharField(max_length=100)
+    product = models.CharField(max_length=100,null=True)
+    hsn = models.CharField(max_length=100,null=True)
     description = models.CharField(max_length=100, default='')
     qty = models.IntegerField(default=0, null=True)
-    price = models.CharField(max_length=100)
+    price = models.CharField(max_length=100,null=True)
     total = models.IntegerField(default=0, null=True)
-    tax = models.CharField(max_length=100)
+    tax = models.CharField(max_length=100,null=True)
 
 
 class payment(models.Model):
     paymentid = models.AutoField(('PAYMENTID'), primary_key=True)
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
-    customer = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    paymdate = models.DateField()
-    pmethod = models.CharField(max_length=100)
-    refno = models.CharField(max_length=100)
-    depto = models.CharField(max_length=100)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
+    customer = models.CharField(max_length=100,null=True)
+    email = models.CharField(max_length=100,null=True)
+    paymdate = models.DateField(null=True)
+    pmethod = models.CharField(max_length=100,null=True)
+    refno = models.CharField(max_length=100,null=True)
+    depto = models.CharField(max_length=100,null=True)
     amtreceived = models.FloatField()
-    amtapply = models.FloatField()
-    amtcredit = models.FloatField()
+    amtapply = models.FloatField(null=True)
+    amtcredit = models.FloatField(null=True)
     referno = models.CharField(max_length=255, )
     balance= models.FloatField(default='0')
     
@@ -1164,23 +1163,23 @@ class payment(models.Model):
         db_table = "payment"
 
 class paymentitems(models.Model):
-    payment = models.ForeignKey(payment,on_delete=models.CASCADE)
+    payment = models.ForeignKey(payment,on_delete=models.CASCADE,null=True)
     cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     # inv = models.ForeignKey(invoice, on_delete=models.CASCADE,null=True)
     invdate = models.CharField(max_length=100, default='')
     invno = models.CharField(max_length=100, default='')
     duedate = models.CharField(max_length=100, default='')
     invamount = models.CharField(max_length=100, default='')
-    balamount = models.FloatField()
+    balamount = models.FloatField(null=True)
     paymentamount = models.CharField(max_length=100, default='0')
     
 
 class cust_statment(models.Model):
     customer = models.CharField(max_length=255, default='')
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     inv = models.ForeignKey(invoice,on_delete=models.CASCADE,null=True)
     pay=models.ForeignKey(payment,on_delete=models.CASCADE,null=True)
-    Date = models.DateField()
+    Date = models.DateField(null=True)
     Transactions = models.CharField(max_length=255,blank=True,null=True)
     Details	= models.CharField(max_length=255,blank=True,null=True)
     Details2= models.CharField(max_length=255,blank=True,null=True)
@@ -1193,32 +1192,32 @@ class cust_statment(models.Model):
 # Rahanas -------------
 
 class itemtable(models.Model):
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    item_type = models.CharField(max_length=100)
-    unit = models.CharField(max_length=100)
-    hsn = models.CharField(max_length=100)
-    tax_reference = models.CharField(max_length=100)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
+    name = models.CharField(max_length=100,null=True)
+    item_type = models.CharField(max_length=100,null=True)
+    unit = models.CharField(max_length=100,null=True)
+    hsn = models.CharField(max_length=100,null=True)
+    tax_reference = models.CharField(max_length=100,null=True)
     purchase_cost = models.IntegerField(default='0',null=True,blank=True)
-    sales_cost = models.CharField(max_length=100)
-    #tax_rate = models.CharField(max_length=100)
-    acount_pur = models.CharField(max_length=100)
-    account_sal = models.CharField(max_length=100)
-    pur_desc = models.CharField(max_length=100)
-    sale_desc = models.CharField(max_length=100)
-    intra_st = models.CharField(max_length=100)
-    inter_st = models.CharField(max_length=100)
+    sales_cost = models.CharField(max_length=100,null=True)
+    # tax_rate = models.CharField(max_length=100,null=True)
+    acount_pur = models.CharField(max_length=100,null=True)
+    account_sal = models.CharField(max_length=100,null=True)
+    pur_desc = models.CharField(max_length=100,null=True)
+    sale_desc = models.CharField(max_length=100,null=True)
+    intra_st = models.CharField(max_length=100,null=True)
+    inter_st = models.CharField(max_length=100,null=True)
     inventry = models.CharField(max_length=100, default='',null=True,blank=True)
     stock = models.IntegerField(default='')
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=100,null=True)
 
 class unittable(models.Model):
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
-    unit_symbol = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
+    unit_symbol = models.CharField(max_length=100,null=True)
+    name = models.CharField(max_length=100,null=True)
 
 class mjournal(models.Model):
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     date = models.CharField(max_length=100, default='')
     mj_no = models.CharField(max_length=100, default='')
     ref_no = models.CharField(max_length=100, default='')
@@ -1261,7 +1260,7 @@ class stockreason(models.Model):
 
 
 class stockadjust(models.Model):
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     mode = models.CharField(max_length=100, default='')
     ref_no = models.CharField(max_length=100, default='')
     date = models.CharField(max_length=100, default='')
@@ -1301,14 +1300,14 @@ class stockadjust(models.Model):
 
 class etransporter(models.Model):
     etransporterid = models.AutoField(("ETRANSPORTERID"), primary_key=True)
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     name = models.CharField(max_length=255, default='', blank=True)   
     tid = models.CharField(max_length=255, default='', blank=True) 
 
 
 class ewayinv(models.Model):
     ewayinvid = models.AutoField(("EWAYINV"), primary_key=True)
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     transaction_stype = models.CharField(max_length=255, default='', blank=True)   
     transporter = models.CharField(max_length=255, default='', blank=True)     
     distance = models.CharField(max_length=255, default='', blank=True)   
@@ -1351,14 +1350,8 @@ class vendor(models.Model):
     shipstate = models.CharField(max_length=100, null=True)
     shippincode = models.CharField(max_length=100, null=True)
     shipcountry = models.CharField(max_length=100, null=True)
-
-    vendor_status = (
-        ('Active','Active'),
-        ('Inactive','Inactive'),
-       
-    )
     
-    status =models.CharField(max_length=150,choices=vendor_status,default='Active')
+    is_active =models.BooleanField(default=True)
 
 class purchaseorder(models.Model):
     porderid = models.AutoField(('pid'), primary_key=True)
@@ -1431,7 +1424,7 @@ class purchasebill(models.Model):
     tcs_amount = models.CharField(max_length=100,null=True)
     round_off = models.CharField(max_length=100,null=True)
     tax_amount = models.CharField(max_length=100,null=True)
-    grand_total = models.CharField(max_length=100,null=True)
+    grand_total = models.IntegerField(null=True)
     balance_due = models.CharField(max_length=100,null=True)
     amtrecvd = models.CharField(max_length=100,null=True)
     note = models.CharField(max_length=255,null=True)
@@ -1455,7 +1448,7 @@ class purchasebill_item(models.Model):
 class purchase_expense(models.Model):
     expenseid = models.AutoField(('eid'), primary_key=True)
     expense_no = models.IntegerField(default=1000)
-    date = models.DateField()
+    date = models.DateField(null=True)
     expenseaccount = models.CharField(max_length=100,null=True)
     expensetype = models.CharField(max_length=100,null=True)
     hsn_sac = models.CharField(max_length=100,null=True)
@@ -1472,7 +1465,7 @@ class purchase_expense(models.Model):
     file = models.FileField(upload_to='purchase/expense',default="default.png")
 
 class creditperiod(models.Model):
-    newperiod = models.IntegerField()
+    newperiod = models.IntegerField(null=True)
 
 class purchasepayment(models.Model):
     pymntid = models.AutoField(('pyid'), primary_key=True)
@@ -1495,7 +1488,7 @@ class purchasepayment1(models.Model):
     payments = models.CharField(max_length=100,null=True)
     
 class paymentmethod(models.Model):
-    newmethod = models.CharField(max_length=100) 
+    newmethod = models.CharField(max_length=100,null=True) 
 
 class purchasedebit(models.Model):
     pdebitid = models.AutoField(('pdid'), primary_key=True)
@@ -1522,7 +1515,7 @@ class purchasedebit1(models.Model):
 
 class vendor_statment(models.Model):
     vendor = models.CharField(max_length=255, default='')
-    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     pbill = models.ForeignKey(purchasebill,on_delete=models.CASCADE,blank=True,null=True)
     paymnt=models.ForeignKey(purchasepayment,on_delete=models.CASCADE,blank=True,null=True)
     date = models.DateField(blank=True,null=True)

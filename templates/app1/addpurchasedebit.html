@@ -58,7 +58,42 @@
             $('#tax_amount').val(taxamount.toFixed(2));
             $('#grandtotal').val((taxamount + total).toFixed(2));
             $('#baldue').val((taxamount + total).toFixed(2));
+
+            test()
         }
+
+        function test(){
+            var bc = document.getElementById("plosu").value
+            d=0
+            if (bc == "{{ cmp1.state }}"  ) {
+                gst = taxamount/2
+                $('#cgst').val(parseFloat(gst.toFixed(2)));
+                $('#sgst').val(parseFloat(gst.toFixed(2)));
+                $('#igst').val(parseFloat(d.toFixed(2)));
+            }
+                
+            if (bc != "{{ cmp1.state }}"  ) {
+                $('#igst').val(taxamount.toFixed(2));
+                $('#cgst').val(d.toFixed(2));
+                $('#sgst').val(d.toFixed(2));
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        function state(element) {
+            if (element.value == "Kerala" ) {
+                document.getElementById('cgst1').style.display = 'flex';
+                document.getElementById('sgst1').style.display = 'flex';
+                document.getElementById('igst1').style.display = 'none'; 
+            } else {
+                document.getElementById('cgst1').style.display = 'none';
+                document.getElementById('sgst1').style.display = 'none';
+                document.getElementById('igst1').style.display = 'flex';
+            }
+        }
+    </script>
     </script>
     <script>
         function showinnum(divId, element) {
@@ -144,7 +179,7 @@
                             <div class="row">
                                 <div class="col-md-5 mt-3">
                                     <label>Place of supply</label>&nbsp;
-                                    <select type="text" class="form-control" id="plosu" name="supply">
+                                    <select type="text" class="form-control" id="plosu" name="supply" onchange="state(this)">
                                         <option value="{{ cmp1.state }}" selected> {{ cmp1.state }}</option>
                                         <option value="Andaman and Nicobar Islads">Andaman and Nicobar Islads</option>
                                         <option value="Andhra Predhesh">Andhra Predhesh</option>
@@ -305,10 +340,60 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8"></div>
-                        <div class="col-md-4">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="tab_logic_total">
+                        <div class="col-md-7"></div>
+                        <div class="col-md-5 table-responsive-md mt-3" id="tab_logic_total" style="background-color:rgba(0,0,0,.4); border: 1px solid rgba(128, 128, 128, 0.6);">
+                            <div class="p-3">
+                                <div class="row container-fluid p-2 m-0">
+                                    <div class="col-sm-4 mt-2"><label class="text-center">Sub Total</label></div>
+                                    <div class="col-sm-1 mt-2">:</div>
+                                    <div class="col-sm-7 mt-2"><input type="number" step="any" name='subtotal' placeholder=0 
+                                        class="form-control" id="sub_total">
+                                    </div>
+                                    <div class="col-sm-4 m-0 p-0"></div>
+                                </div>
+                                <div class="row container-fluid p-2 m-0" id="igst1">
+                                    <div class="col-sm-4 mt-2"><label for="a" class="text-center">IGST</label></div>
+                                    <div class="col-sm-1 mt-2">:</div>
+                                    <div class="col-sm-7 mt-2"><input type="number" name='igst' step="any" id="igst" placeholder=0 
+                                        class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-4 m-0 p-0"></div>
+                                </div>
+                                <div class="row container-fluid p-2 m-0" style="display: none;" id="cgst1">
+                                    <div class="col-sm-4 mt-2"><label for="a" class="text-center">CGST</label></div>
+                                    <div class="col-sm-1 mt-2">:</div>
+                                    <div class="col-sm-7 mt-2"><input type="number" name='cgst' step="any" id="cgst" placeholder=0 
+                                        class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-4 m-0 p-0"></div>
+                                </div>
+                                <div class="row container-fluid p-2 m-0" style="display: none;" id="sgst1">
+                                    <div class="col-sm-4 mt-2"><label for="a" class="text-center">SGST</label></div>
+                                    <div class="col-sm-1 mt-2">:</div>
+                                    <div class="col-sm-7 mt-2"><input type="number" name='sgst' step="any" id="sgst" placeholder=0 
+                                        class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-4 m-0 p-0"></div>
+                                </div>
+                                <div class="row container-fluid p-2 m-0">
+                                    <div class="col-sm-4 mt-2"><label for="a" class="text-center">Tax Amount</label></div>
+                                    <div class="col-sm-1 mt-2">:</div>
+                                    <div class="col-sm-7 mt-2"><input type="number" name='taxamount' id="tax_amount" placeholder='0.00' 
+                                        class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-4 m-0 p-0"></div>
+                                </div>
+                                <div class="row container-fluid p-2 m-0">
+                                    <div class="col-sm-4 mt-2"><label for="a" class="text-center">Grand Total</label></div>
+                                    <div class="col-sm-1 mt-2">:</div>
+                                    <div class="col-sm-7 mt-2"><input type="number" name='grandtotal' id="grandtotal" placeholder='0.00' readonly
+                                        class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-4 m-0 p-0"></div>
+                                </div>
+                            </div>
+                            <!-- <div class="table-responsive">
+                                <table class="table table-bordered" >
                                     <tbody>
                                     <tr>
                                         <th class="text-center">Sub Total</th>
@@ -330,8 +415,8 @@
                                                                        class="form-control" readonly/></td>
                                     </tr>
                                     </tbody>
-                                </table>
-                            </div>
+                                </table> -->
+                            <!-- </div> -->
                         </div>
                     </div>
                     <div class="row mt-4 mb-4">

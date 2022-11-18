@@ -156,7 +156,7 @@
         .media p {
             font-weight: 400;
             margin: 0;
-            color: #000000;
+            /* color: #000000; */
         }
         .media p.title {
             font-weight: 600;    
@@ -262,9 +262,13 @@
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-exchange"></i>Convert 
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'billconvert' pbill.billid %}"><i class="fas fa-receipt"></i>To Bill</a>
-                                    </div>
+                                    {% if pbill.status == "Draft"  %}
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{% url 'billconvert' pbill.billid %}">
+                                                <i class="fas fa-receipt"></i>To Bill
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light btn" role="button" href="javascript:generatePDF()">
@@ -275,7 +279,7 @@
                                     <a class="nav-link"></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-light btn" role="button" href="goeditbill/{{ pbill.billid }}{{ bitem.bid }}" class=" fa fa-pencil"><i class=" fa fa-pencil"></i> Edit</a>
+                                    <a class="nav-link text-light btn" role="button" href="goeditbill/{{ pbill.billid }}{{ bitem.bill }}" class=" fa fa-pencil"><i class=" fa fa-pencil"></i> Edit</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light btn" role="button" href="deletebill/{{ pbill.billid }}{{ bitem.id }}"><i class="fa fa-trash-o delete">Delete</i></a>

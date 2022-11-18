@@ -547,9 +547,12 @@
             let y =Math.round(x-disc0)
             
             $('#tcs_amount').val((z).toFixed(2));
-            $('#grandtotal').val((y).toFixed(2));
-            $('#due').val((y).toFixed(2));
-            $('#round_off').val((y).toFixed(2));   
+            // $('#grandtotal').val((y).toFixed(2));
+            // $('#due').val((y).toFixed(2));
+            // $('#round_off').val((y).toFixed(2));   
+            $('#grandtotal').val(parseFloat(y.toFixed(2)));
+            $('#due').val(parseFloat(y.toFixed(2)));
+            $('#round_off').val(parseFloat(y.toFixed(2)));
 
             test()
         }

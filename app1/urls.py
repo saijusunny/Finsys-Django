@@ -654,6 +654,7 @@ urlpatterns = [
     re_path(r'^addvendor$',views.addvendor,name='addvendor'),
     re_path(r'^createvendor$',views.createvendor,name='createvendor'),
     re_path(r'^viewvendor/(?P<id>\d+)$', views.viewvendor, name='viewvendor'),
+    # re_path(r'^viewvendor/viewvendor1/(?P<id>\d+)$', views.viewvendor1, name='viewvendor1'),
     re_path(r'^goeditvendor/(?P<id>\d+)$', views.goeditvendor, name='goeditvendor'),
     re_path(r'^goeditvendor/editvendor/(?P<id>\d+)$', views.editvendor, name='editvendor'),
     re_path(r'^deletevendor/(?P<id>\d+)$', views.deletevendor, name='deletevendor'),
@@ -742,6 +743,7 @@ urlpatterns = [
     re_path(r'^itemdata$', views.itemdata, name='itemdata'),
     re_path(r'^payment_method$', views.payment_method, name='payment_method'),
 
+    re_path(r'^sa',views.sa,name='sa'),
     re_path(r'^bnnk',views.bnnk,name='bnnk'),
     re_path(r'^bnk1/(?P<pk>\d+)$',views.bnk1,name='bnk1'),
     re_path(r'^accpayment$',views.accpayment,name='accpayment'),
